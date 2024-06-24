@@ -14,6 +14,8 @@ class Item(models.Model):
     SKU = models.CharField(max_length=10)
     marked_price = models.CharField(max_length=50, blank=True)
 
+
+
 class Purchase(models.Model):
     TAX_TYPES  = {
         "16% VAT": "16% VAT",
@@ -29,6 +31,7 @@ class Purchase(models.Model):
     purchase_price = models.IntegerField(max_length=100)
     tax_type = models.CharField(max_length=20, choices=TAX_TYPES)
     subtotal = models.IntegerField(max_length=100)
+
 
 
 class Sale(models.Model):
