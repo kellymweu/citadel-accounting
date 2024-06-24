@@ -3,12 +3,12 @@ from django.db import models
 # Create your models here.
 #Stocks Counts
 class Item(models.Model):
-    TAX_TYPES  = {
-        "16% VAT": "16% VAT",
-        "EXEMPT": "EXEMPT",
-        "2% CATERING" : "2% CATERING LEVY",
-        "14% VAT" : "14% VAT"
-    }
+    TAX_TYPES = [
+        ("16% VAT", "16% VAT"),
+        ("EXEMPT" , "EXEMPT"),
+        ("2% CATERING" , "2% CATERING LEVY"),
+        ("14% VAT" , "14% VAT"),
+    ]
     item_name = models.CharField(max_length=50)
     tax_type = models.CharField(max_length=20, choices=TAX_TYPES)
     SKU = models.CharField(max_length=10)
@@ -17,33 +17,33 @@ class Item(models.Model):
 
 
 class Purchase(models.Model):
-    TAX_TYPES  = {
-        "16% VAT": "16% VAT",
-        "EXEMPT": "EXEMPT",
-        "2% CATERING" : "2% CATERING LEVY",
-        "14% VAT" : "14% VAT"
-    }
+    TAX_TYPES = [
+        ("16% VAT", "16% VAT"),
+        ("EXEMPT" , "EXEMPT"),
+        ("2% CATERING" , "2% CATERING LEVY"),
+        ("14% VAT" , "14% VAT"),
+    ]
     supplier_name = models.CharField(max_length=100)
     purchase_date = models.DateTimeField(auto_now=False, auto_now_add=False)
-    purchase_quantity = models.IntegerField(max_length=50)
+    purchase_quantity = models.IntegerField
     invoice_number = models.CharField(max_length=100)
     item_name = models.ForeignKey(Item, on_delete=models.CASCADE)
-    purchase_price = models.IntegerField(max_length=100)
+    purchase_price = models.IntegerField
     tax_type = models.CharField(max_length=20, choices=TAX_TYPES)
-    subtotal = models.IntegerField(max_length=100)
+    subtotal = models.IntegerField
 
 
 
 class Sale(models.Model):
-    TAX_TYPES  = {
-        "16% VAT": "16% VAT",
-        "EXEMPT": "EXEMPT",
-        "2% CATERING" : "2% CATERING LEVY",
-        "14% VAT" : "14% VAT"
-    }
+    TAX_TYPES = [
+        ("16% VAT", "16% VAT"),
+        ("EXEMPT" , "EXEMPT"),
+        ("2% CATERING" , "2% CATERING LEVY"),
+        ("14% VAT" , "14% VAT"),
+    ]
     item_name = models.ForeignKey(Item, on_delete=models.CASCADE)
-    sale_quantity = models.IntegerField(max_length=50)
-    selling_price = models.IntegerField(max_length=100)
+    sale_quantity = models.IntegerField
+    selling_price = models.IntegerField
     tax_type = models.CharField(max_length=20, choices=TAX_TYPES)
-    sub_total = models.IntegerField(max_length=100)
+    sub_total = models.IntegerField
 

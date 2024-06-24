@@ -33,7 +33,7 @@ def login_view(request):
     return render(request, error_message)
 
 
-def logout(request):
+def logout_view(request):
     if request.method == "POST":
         logout(request)
         return redirect('login')
