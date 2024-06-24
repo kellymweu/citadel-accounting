@@ -11,9 +11,12 @@ class Item(models.Model):
     ]
     item_name = models.CharField(max_length=50)
     tax_type = models.CharField(max_length=20, choices=TAX_TYPES)
-    SKU = models.CharField(max_length=10)
+    SKU = models.CharField(max_length=10, unique=True)
     marked_price = models.CharField(max_length=50, blank=True)
 
+    #This is a string representation of all Item Objects
+    def __str__(self):
+        return(f"ID:{self.id}: item_name:{self.item_name}, tax:{self.tax_type}, selling price: Kes.{self.marked_price}")
 
 
 class Purchase(models.Model):
