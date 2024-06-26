@@ -9,6 +9,7 @@ class Item(models.Model):
         ("2% CATERING" , "2% CATERING LEVY"),
         ("14% VAT" , "14% VAT"),
     ]
+    #item_id = models.IntegerField(primary_key=True, unique=True)
     item_name = models.CharField(max_length=50)
     tax_type = models.CharField(max_length=20, choices=TAX_TYPES)
     SKU = models.CharField(max_length=10, unique=True)
@@ -26,6 +27,7 @@ class Purchase(models.Model):
         ("2% CATERING" , "2% CATERING LEVY"),
         ("14% VAT" , "14% VAT"),
     ]
+    #purchase_id = models.IntegerField(primary_key=True, unique=True)
     supplier_name = models.CharField(max_length=100)
     purchase_date = models.DateTimeField(auto_now=False, auto_now_add=False)
     purchase_quantity = models.IntegerField
@@ -44,6 +46,7 @@ class Sale(models.Model):
         ("2% CATERING" , "2% CATERING LEVY"),
         ("14% VAT" , "14% VAT"),
     ]
+    #sale_id = models.IntegerField(primary_key=True, unique=True)
     item_name = models.ForeignKey(Item, on_delete=models.CASCADE)
     sale_quantity = models.IntegerField
     selling_price = models.IntegerField
