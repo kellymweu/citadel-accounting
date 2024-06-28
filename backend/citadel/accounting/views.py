@@ -6,11 +6,26 @@ from rest_framework.decorators import api_view
 from .serializers import *
 from accounting import serializers
 from rest_framework import status
-from rest_framework.views import APIView
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.views import APIView #for class based views
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView #for generic views
+from rest_framework.viewsets import ModelViewSet
 # Create your views here.
 
-#------------------GENERIC VIEWS ----------------------
+#------------------VIEWSETS----------------------
+#queryset and serializer class need to be the same to use viewsets
+class ItemsViewset(ModelViewSet):
+    queryset = Item.objects.all()
+    serializer_class = ItemSerializer
+
+class PurchasesViewset(ModelViewSet):
+    queryset = Purchase.objects.all()
+    serializer_class = PurchaseSerializer
+
+class SalesViewset(ModelViewSet):
+    queryset = Sale.objects.all()
+    serializer_class = SaleSerializer
+
+'''------------------GENERIC VIEWS ----------------------
 
 class ItemsApi(ListCreateAPIView):
     queryset = items = Item.objects.all()
@@ -35,11 +50,11 @@ class SalesApi(ListCreateAPIView):
 class SaleApi(RetrieveUpdateDestroyAPIView):
     queryset = Sale.objects.all()
     serializer_class = SaleSerializer
-
-
-
 '''
-------------------CLASS BASED VIEWS ----------------------
+
+
+
+''' ------------------CLASS BASED VIEWS ----------------------
 
 #Many Items
 class ItemsApi(APIView):
@@ -139,11 +154,7 @@ class SaleApi(APIView):
 '''
 
 
-
-
-
-'''
-------------------FUNCTION BASED VIEWS ----------------------
+'''------------------FUNCTION BASED VIEWS ----------------------
 @api_view(['GET', 'POST']) #@api_view() is a decorator
 #this function gets all items in the model Item
 def items(request):
