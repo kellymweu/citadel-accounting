@@ -9,6 +9,10 @@ from rest_framework import status
 from rest_framework.views import APIView #for class based views
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView #for generic views
 from rest_framework.viewsets import ModelViewSet
+from .filters import * 
+from rest_framework.filters import SearchFilter 
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 # Create your views here.
 
 #------------------VIEWSETS----------------------
@@ -16,10 +20,16 @@ from rest_framework.viewsets import ModelViewSet
 class ItemsViewset(ModelViewSet):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter, filters.OrderingFilter]
+    filterset_class = ItemFilter
+    search_fields = ['item_name', 'SKU']
+
 
 class PurchasesViewset(ModelViewSet):
     queryset = Purchase.objects.all()
     serializer_class = PurchaseSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["supplier_name","invoice_number","item_name", "tax_type", "SKU", "marked_price"]
 
 class SalesViewset(ModelViewSet):
     queryset = Sale.objects.all()

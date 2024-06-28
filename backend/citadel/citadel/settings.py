@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'accounting.apps.AccountingConfig',
     'authentication.apps.AuthenticationConfig',
     'rest_framework',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
