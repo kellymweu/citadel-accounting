@@ -5,14 +5,14 @@ from .models import *
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
-        fields = ["item_name", "tax_type", "SKU", "marked_price"]
+        fields = ["id","item_name", "tax_type", "SKU", "marked_price"]
 
 class PurchaseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Purchase
-        fields = ["supplier_name","purchase_date","purchase_quantity","invoice_number","item_name","purchase_price","tax_type","subtotal"]
+        fields = ["id","supplier_name","purchase_date","purchase_quantity","invoice_number","item_name","purchase_price","tax_type","sub_total"]
 
 class SaleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sale
-        field = ["item_name","sale_quantity","selling_price","tax_type","sub_total"]
+        fields = ["id","item_name","sale_quantity","selling_price","tax_type","sub_total"]
