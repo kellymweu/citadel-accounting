@@ -23,6 +23,7 @@ class ItemsViewset(ModelViewSet):
     filter_backends = [DjangoFilterBackend, SearchFilter, filters.OrderingFilter]
     filterset_class = ItemFilter
     search_fields = ['item_name', 'SKU']
+    ordering_fields = ['SKU']
 
 
 class PurchasesViewset(ModelViewSet):
