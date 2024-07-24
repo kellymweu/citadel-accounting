@@ -9,11 +9,10 @@ class Item(models.Model):
         ("2% CATERING" , "2% CATERING LEVY"),
         ("14% VAT" , "14% VAT"),
     ]
-    #item_id = models.IntegerField(primary_key=True, unique=True)
     item_name = models.CharField(max_length=50)
     tax_type = models.CharField(max_length=20, choices=TAX_TYPES)
     SKU = models.CharField(max_length=10, unique=True)
-    marked_price = models.CharField(max_length=50, blank=True)
+    marked_price = models.DecimalField(max_length=50, blank=True)
 
     #This is a string representation of all Item Objects
     def __str__(self):
