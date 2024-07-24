@@ -17,11 +17,3 @@ class TransactionListCreateView(generics.ListCreateAPIView):
 class TransactionDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
-
-class CustomerListCreateView(generics.ListCreateAPIView):
-    queryset = Customer.objects.all()
-    serializer_class = CustomerSerializer
-
-class CustomerDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Customer.objects.all()
-    serializer_class = CustomerSerializer
