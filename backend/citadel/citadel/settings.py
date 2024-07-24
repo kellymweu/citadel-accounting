@@ -37,6 +37,13 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'corsheaders',
+    'banking',
+    'expenses',
+    'inventory',
+    'invoicing',
+    'payroll',
+    'purchases',
+    'sales',
 ]
 
 MIDDLEWARE = [
