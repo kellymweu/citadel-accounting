@@ -16,7 +16,7 @@ class Purchase(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)  # Renamed for clarity
     purchase_price = models.DecimalField(max_digits=10, decimal_places=2)  # Using DecimalField for currency
     tax_type = models.CharField(max_length=20, choices=TAX_TYPES)
-    sub_total = models.DecimalField(max_digits=10, decimal_places=2, editable=False)  # Calculated field
+    sub_total = models.DecimalField(max_digits=10, decimal_places=2, editable=False, default=0.00)  # Calculated field
 
     def save(self, *args, **kwargs):
         self.sub_total = self.purchase_quantity * self.purchase_price
