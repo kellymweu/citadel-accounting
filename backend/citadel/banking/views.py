@@ -1,6 +1,6 @@
 from rest_framework import generics
-from .models import Account, Transaction, Customer
-from .serializers import AccountSerializer, TransactionSerializer, CustomerSerializer
+from .models import Account, Transaction
+from .serializers import AccountSerializer, TransactionSerializer
 
 class AccountListCreateView(generics.ListCreateAPIView):
     queryset = Account.objects.all()

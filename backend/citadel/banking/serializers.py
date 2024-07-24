@@ -1,10 +1,5 @@
 from rest_framework import serializers
-from banking.models import Customer, Transaction, Account
-
-class CustomerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Customer
-        fields = '__all__'
+from banking.models import Transaction, Account
 
 class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
