@@ -16,7 +16,9 @@ import {
 import Image from "next/image";
 
 export default async function sales() {
-  const response = await fetch ("")
+  const response = await fetch("http://127.0.0.1:8000/api/sales/sales/");
+  const sales = await response.json();
+  console.log(sales);
   return (
     <div className="flex flex-col min-h-[100dvh]">
       <main className="flex-1">

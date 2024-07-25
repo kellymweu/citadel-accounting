@@ -8,7 +8,7 @@ class Account(models.Model):
     ]
     
     account_name = models.CharField(max_length=50)
-    account_number = models.IntegerField(max_length=20, unique=True)
+    account_number = models.IntegerField(unique=True)
     account_type = models.CharField(max_length=10, choices=ACCOUNT_TYPES)
     balance = models.DecimalField(max_digits=15, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
