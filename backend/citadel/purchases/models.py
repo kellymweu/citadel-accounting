@@ -17,6 +17,8 @@ class Purchase(models.Model):
     purchase_price = models.DecimalField(max_digits=10, decimal_places=2)  # Using DecimalField for currency
     tax_type = models.CharField(max_length=20, choices=TAX_TYPES)
     sub_total = models.DecimalField(max_digits=10, decimal_places=2, editable=False, default=0.00)  # Calculated field
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
         self.sub_total = self.purchase_quantity * self.purchase_price
@@ -33,6 +35,8 @@ class Supplier(models.Model):
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     address = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
         return self.name

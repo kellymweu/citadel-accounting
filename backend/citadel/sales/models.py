@@ -17,6 +17,8 @@ class Sale(models.Model):
     selling_price = models.DecimalField(max_digits=10, decimal_places=2)
     tax_type = models.CharField(max_length=20, choices=TAX_TYPES)
     sub_total = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
         self.sub_total = self.sale_quantity * self.selling_price

@@ -10,6 +10,8 @@ class Employee(models.Model):
     job_title = models.CharField(max_length=100)
     hire_date = models.DateField()
     salary = models.DecimalField(max_digits=10, decimal_places=2)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.job_title})"
@@ -21,6 +23,8 @@ class Payroll(models.Model):
     bonuses = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     deductions = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     total_payment = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
         self.total_payment = self.basic_salary + self.bonuses - self.deductions
