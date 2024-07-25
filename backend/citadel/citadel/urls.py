@@ -1,7 +1,5 @@
 from django.contrib import admin
 from django.urls import path, include
-from authentication import views
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -12,5 +10,5 @@ urlpatterns = [
     path('api/expenses/', include('expenses.urls')),
     path('api/banking/', include('banking.urls')),
     path('api/payroll/', include('payroll.urls')),
-    path("api/authentication/", include("authentication.urls")),
+    
 ]
