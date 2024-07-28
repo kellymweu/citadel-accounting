@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/table";
 
 export default function Inventory() {
-  
   const [items, setItems] = useState([
     {
       id: 1,
