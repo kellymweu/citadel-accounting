@@ -11,7 +11,7 @@ class Sale(models.Model):
     ]
 
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)  # Link to Customer model
+    #customer = models.ForeignKey(Customer, on_delete=models.CASCADE)  # Link to Customer model
     sale_date = models.DateTimeField(auto_now_add=True)
     sale_quantity = models.IntegerField()
     selling_price = models.DecimalField(max_digits=10, decimal_places=2)

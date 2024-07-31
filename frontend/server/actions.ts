@@ -3,13 +3,12 @@
 //GET ALL ITEMS
 export async function getItems() {
   try {
-    const data = await fetch("http://127.0.0.1:8000/api/inventory/items/");
-    return { data };
+    const items = await fetch("http://127.0.0.1:8000/api/inventory/items/");
+    return { items };
   } catch (error) {
     return { error: error };
   }
 }
-
 //GET ONE ITEM BY ID
 export async function getItem() {
   const response = await fetch(
@@ -18,14 +17,12 @@ export async function getItem() {
   const item = await response.json();
   console.log(item);
 }
-
 //GET ALL INVOICES
 export async function getInvoices() {
   const response = await fetch("http://127.0.0.1:8000/api/invoicing/invoices/");
   const invoices = await response.json();
   console.log(invoices);
 }
-
 //GET ALL EXPENSES
 export async function getExpenses() {
   const response = await fetch("http://127.0.0.1:8000/api/expenses/expenses/");
@@ -44,7 +41,10 @@ export async function getPurchases() {
 
 //GET ALL SALES
 export async function getSales() {
-  const response = await fetch("http://127.0.0.1:8000/api/sales/sales/");
-  const sales = await response.json();
-  console.log(sales);
+  try {
+    const sales = await fetch("http://127.0.0.1:8000/api/sales/sales/");
+    return { sales };
+  } catch (error) {
+    return { error: error };
+  }
 }

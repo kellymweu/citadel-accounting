@@ -1,11 +1,5 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/trplNlOZNpX
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
 "use client";
 
-import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -20,11 +14,13 @@ import { getItems } from "@/server/actions";
 import { useQuery } from "@tanstack/react-query";
 
 export default function Inventory() {
-  const { data, error, isLoading } = useQuery({
+  const { items, error, isLoading } = useQuery({
     queryKey: ["items"],
     queryFn: getItems,
   });
   if (error) <h2>{error.message}</h2>;
+  if (isLoading) <h2>...Loadingggg</h2>;
+
   return (
     <div className="flex flex-col gap-4 p-4 md:p-6">
       <div className="flex items-center justify-between">
@@ -83,16 +79,16 @@ export default function Inventory() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {Items.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell className="font-medium">{item.name}</TableCell>
-                <TableCell>{item.description}</TableCell>
-                <TableCell>{item.quantity}</TableCell>
-                <TableCell>${item.price.toFixed(2)}</TableCell>
+            {items?.map((id) => (
+              <TableRow key={items.id}>
+                <TableCell className="font-medium">{items.name}</TableCell>
+                <TableCell>{items.description}</TableCell>
+                <TableCell>{items.quantity}</TableCell>
+                <TableCell>${items.price.toFixed(2)}</TableCell>
                 <TableCell>
                   <Button size="icon" variant="ghost">
                     {/* <FilePenIcon className="h-4 w-4" /> */}
-                    <span className="sr-only">Edit {item.name}</span>
+                    <span className="sr-only">Edit {items.name}</span>
                   </Button>
                 </TableCell>
               </TableRow>

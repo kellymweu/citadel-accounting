@@ -1,9 +1,5 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/pb84WwWfZ8D
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
-import Link from "next/link";
+"use client";
+
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import {
   Table,
@@ -13,48 +9,20 @@ import {
   TableBody,
   TableCell,
 } from "@/components/ui/table";
-import Image from "next/image";
+import { getSales } from "@/server/actions";
+import { useQuery } from "@tanstack/react-query";
 
-export default async function sales() {
-  const response = await fetch("http://127.0.0.1:8000/api/sales/sales/");
-  const sales = await response.json();
-  console.log(sales);
+export default function Sales() {
+  const { sales, error, isLoading } = useQuery({
+    queryKey: ["sales"],
+    queryFn: getSales,
+  });
+  if (error) <h2>{error.message}</h2>;
+  if (isLoading) <h2>...Loadingggg</h2>;
   return (
     <div className="flex flex-col min-h-[100dvh]">
       <main className="flex-1">
-        {/* <section className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
-            <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
-              <div className="flex flex-col justify-center space-y-4">
-                <div className="space-y-2">
-                  <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                    Streamline Your Accounting with Acme
-                  </h1>
-                  <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                    Acme Accounting is the all-in-one platform to manage your
-                    finances with ease. From invoicing to tax reporting,
-                    we&aposve got you covered.
-                  </p>
-                </div>
-                <Link
-                  href="#"
-                  className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-                  prefetch={false}
-                >
-                  Get Started
-                </Link>
-              </div>
-              <Image
-                src="/placeholder.svg"
-                width="550"
-                height="550"
-                alt="Hero"
-                className="mx-auto aspect-video overflow-hidden rounded-xl object-bottom sm:w-full lg:order-last lg:aspect-square"
-              />
-            </div>
-          </div>
-        </section> */}
-        <section className="w-full py-8 md:py-24 lg:py-32 bg-muted">
+        <section className="w-full py-8 md:py-16 lg:py-24 bg-muted">
           <div className="container grid gap-4 px-4 md:px-6 lg:grid-cols-3 lg:gap-6">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -96,6 +64,7 @@ export default async function sales() {
             </Card>
           </div>
         </section>
+
         <section className="w-full py-12 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">
             <Card>
@@ -110,88 +79,29 @@ export default async function sales() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  <TableRow>
-                    <TableCell className="font-medium">INV001</TableCell>
-                    <TableCell>2023-06-15</TableCell>
-                    <TableCell>Acme Inc.</TableCell>
-                    <TableCell className="text-right">$1,250.00</TableCell>
-                    <TableCell>
-                      <div className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-800">
-                        Paid
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell className="font-medium">INV002</TableCell>
-                    <TableCell>2023-05-30</TableCell>
-                    <TableCell>Globex Corp.</TableCell>
-                    <TableCell className="text-right">$2,500.00</TableCell>
-                    <TableCell>
-                      <div className="inline-flex items-center rounded-full bg-yellow-100 px-3 py-1 text-xs font-medium text-yellow-800">
-                        Pending
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell className="font-medium">INV003</TableCell>
-                    <TableCell>2023-04-20</TableCell>
-                    <TableCell>Stark Industries</TableCell>
-                    <TableCell className="text-right">$3,750.00</TableCell>
-                    <TableCell>
-                      <div className="inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-xs font-medium text-red-800">
-                        Overdue
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell className="font-medium">INV004</TableCell>
-                    <TableCell>2023-03-10</TableCell>
-                    <TableCell>Wayne Enterprises</TableCell>
-                    <TableCell className="text-right">$1,750.00</TableCell>
-                    <TableCell>
-                      <div className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-800">
-                        Paid
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell className="font-medium">INV005</TableCell>
-                    <TableCell>2023-02-28</TableCell>
-                    <TableCell>Stark Industries</TableCell>
-                    <TableCell className="text-right">$2,250.00</TableCell>
-                    <TableCell>
-                      <div className="inline-flex items-center rounded-full bg-yellow-100 px-3 py-1 text-xs font-medium text-yellow-800">
-                        Pending
-                      </div>
-                    </TableCell>
-                  </TableRow>
+                  {sales?.map((id) => (
+                    <TableRow key={sales.id}>
+                      <TableCell className="font-medium">{sales.id}</TableCell>
+                      <TableCell>{sales.created_at}</TableCell>
+                      <TableCell>Acme Inc.</TableCell>
+                      <TableCell className="text-right">
+                        {sales.sub_total}
+                      </TableCell>
+                      <TableCell>
+                        <div className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-800">
+                          Paid
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
               </Table>
             </Card>
           </div>
         </section>
+
+        
       </main>
-      <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
-        <p className="text-xs text-muted-foreground">
-          &copy; 2024 Acme Accounting. All rights reserved.
-        </p>
-        <nav className="sm:ml-auto flex gap-4 sm:gap-6">
-          <Link
-            href="#"
-            className="text-xs hover:underline underline-offset-4"
-            prefetch={false}
-          >
-            Terms of Service
-          </Link>
-          <Link
-            href="#"
-            className="text-xs hover:underline underline-offset-4"
-            prefetch={false}
-          >
-            Privacy
-          </Link>
-        </nav>
-      </footer>
     </div>
   );
 }
