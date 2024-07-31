@@ -4,5 +4,8 @@ Tanstack query
 developedbyed
 https://www.youtube.com/watch?v=yVsaCVEfPn4
 
+pedrotech
+https://youtube.com/watch?v=NOvx4LB6Hfk
+
 josh
 https://www.youtube.com/watch?v=OgVeQVXt7xU
