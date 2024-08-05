@@ -23,11 +23,34 @@ export async function getInvoices() {
   const invoices = await response.json();
   console.log(invoices);
 }
-//GET ALL EXPENSES
+// //GET ALL EXPENSES
+// export async function getExpenses() {
+//   try {
+//     const expenses = await fetch(
+//       "http://127.0.0.1:8000/api/expenses/expenses/"
+//     );
+//     return { expenses };
+//   } catch (error) {
+//     return { error: error };
+//   }
+// }
+
+// GET ALL EXPENSES
 export async function getExpenses() {
-  const response = await fetch("http://127.0.0.1:8000/api/expenses/expenses/");
-  const expenses = await response.json();
-  console.log(expenses);
+  try {
+    const response = await fetch("http://127.0.0.1:8000/api/expenses/expenses/");
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const expenses = await response.json();
+    return expenses; // Return the actual expenses array
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message); // Ensure error is an instance of Error
+    } else {
+      throw new Error("An unknown error occurred");
+    }
+  }
 }
 
 //GET ALL PURCHASES
