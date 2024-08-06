@@ -1,14 +1,47 @@
 "use server";
 
-//GET ALL ITEMS
 export async function getItems() {
   try {
-    const items = await fetch("http://127.0.0.1:8000/api/inventory/items/");
-    return { items };
+    const response = await fetch("http://127.0.0.1:8000/api/inventory/items/");
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    // Ensure we're returning a plain object
+    return { items: data };
   } catch (error) {
+    console.error("Error fetching items:", error);
+    // Return a plain object in case of error as well
     return { error: error };
   }
 }
+
+
+// export async function getItems() {
+//   try {
+//     const response = await fetch("http://127.0.0.1:8000/api/inventory/items/");
+//     if (!response.ok) {
+//       throw new Error('Network response was not ok');
+//     }
+//     const data = await response.json();
+//     console.log("API response:", data); 
+//     return data;
+//   } catch (error) {
+//     console.error("API error:", error);
+//     throw error;
+//   }
+// }
+
+// //GET ALL ITEMS
+// export async function getItems() {
+//   try {
+//     const items = await fetch("http://127.0.0.1:8000/api/inventory/items/");
+//     return { items };
+//   } catch (error) {
+//     return { error: error };
+//   }
+// }
+
 //GET ONE ITEM BY ID
 export async function getItem() {
   const response = await fetch(
@@ -38,7 +71,9 @@ export async function getInvoices() {
 // GET ALL EXPENSES
 export async function getExpenses() {
   try {
-    const response = await fetch("http://127.0.0.1:8000/api/expenses/expenses/");
+    const response = await fetch(
+      "http://127.0.0.1:8000/api/expenses/expenses/"
+    );
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }

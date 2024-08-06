@@ -149,7 +149,7 @@ export default function Expenses() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredExpenses?.map((id) => (
+            {filteredExpenses?.map((Expense) => (
               <TableRow key={expenses.id}>
                 <TableCell>{expenses.date}</TableCell>
                 <TableCell>${expenses.amount.toFixed(2)}</TableCell>
