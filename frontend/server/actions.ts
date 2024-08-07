@@ -16,31 +16,6 @@ export async function getItems() {
   }
 }
 
-// export async function getItems() {
-//   try {
-//     const response = await fetch("http://127.0.0.1:8000/api/inventory/items/");
-//     if (!response.ok) {
-//       throw new Error('Network response was not ok');
-//     }
-//     const data = await response.json();
-//     console.log("API response:", data);
-//     return data;
-//   } catch (error) {
-//     console.error("API error:", error);
-//     throw error;
-//   }
-// }
-
-// //GET ALL ITEMS
-// export async function getItems() {
-//   try {
-//     const items = await fetch("http://127.0.0.1:8000/api/inventory/items/");
-//     return { items };
-//   } catch (error) {
-//     return { error: error };
-//   }
-// }
-
 //GET ONE ITEM BY ID
 export async function getItem() {
   const response = await fetch(
@@ -49,68 +24,23 @@ export async function getItem() {
   const item = await response.json();
   console.log(item);
 }
-//GET ALL INVOICES
-// export async function getInvoices() {
-//   const response = await fetch("http://127.0.0.1:8000/api/invoicing/invoices/");
-//   const invoices = await response.json();
-//   console.log(invoices);
-// }
-
-// export async function getInvoices() {
-//   try {
-//     const response = await fetch("http://127.0.0.1:8000/api/invoicing/invoices/");
-//     if (!response.ok) {
-//       throw new Error('Network response was not ok');
-//     }
-//     const data = await response.json();
-//     // Ensure we're returning a plain object
-//     return { invoices: data };
-//   } catch (error) {
-//     console.error("Error fetching invoices:", error);
-//     // Return a plain object in case of error as well
-//     return { error: error };
-//   }
-// }
 
 import { InvoiceType, InvoicesResponseType } from "@/lib/types";
 
-// export async function getInvoices(): Promise<InvoicesResponseType> {
-//   try {
-//     const response = await fetch(
-//       "http://127.0.0.1:8000/api/invoicing/invoices/"
-//     );
-//     if (!response.ok) {
-//       throw new Error("Network response was not ok");
-//     }
-//     const data = await response.json();
-//     // Ensure we're returning the correct type
-//     return { invoices: data as InvoiceType[] };
-//   } catch (error) {
-//     console.error("Error fetching invoices:", error);
-//     // Throw the error instead of returning it
-//     throw error;
-//   }
-// }
-
-
-export async function getInvoices(): Promise<{ dataString: string }> {
-  try {
-    const response = await fetch("http://127.0.0.1:8000/api/invoicing/invoices/");
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
+export async function getInvoices(): Promise<InvoiceType[]> {
+  const response = await fetch(
+    "http://127.0.0.1:8000/api/invoicing/invoices/",
+    {
+      cache: "no-store",
     }
-    const data = await response.json();
-    
-    // Convert the data to a plain object and stringify it
-    const invoicesData: InvoicesResponseType = { invoices: data };
-    return { dataString: JSON.stringify(invoicesData) };
-  } catch (error) {
-    console.error("Error fetching invoices:", error);
-    // Return a stringified error object
-    return { dataString: JSON.stringify({ error: error instanceof Error ? error.message : 'An unknown error occurred' }) };
-  }
-}
+  );
 
+  if (!response.ok) {
+    throw new Error("Failed to fetch invoices");
+  }
+
+  return response.json();
+}
 // //GET ALL EXPENSES
 // export async function getExpenses() {
 //   try {

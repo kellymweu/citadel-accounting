@@ -2,7 +2,7 @@
 
 export interface CustomerType {
   id: number;
-  name: string; // Assuming the Customer model has a name field
+  first_name: string; 
 }
 
 export interface InvoiceType {
@@ -194,10 +194,6 @@ export interface ItemType {
   updated_at: string; // This will be a string in ISO format
 }
 
-export interface CustomerType {
-  id: number;
-  name: string; // Assuming the Customer model has a name field
-}
 
 export interface SaleType {
   id: number;
