@@ -16,7 +16,7 @@ import {
 import BarchartComponent from "@/components/BarchartComponent";
 import { ExpenseType } from "@/lib/types";
 
-async function getExpenses(): Promise<ExpenseType[]> {
+export async function getExpenses(): Promise<ExpenseType[]> {
   const response = await fetch("http://127.0.0.1:8000/api/expenses/expenses/", {
     cache: "no-store",
   });

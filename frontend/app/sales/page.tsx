@@ -15,7 +15,7 @@ import { SaleType } from "@/lib/types";
 import { useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 
-async function getSales(): Promise<SaleType[]> {
+export async function getSales(): Promise<SaleType[]> {
   const response = await fetch("http://127.0.0.1:8000/api/sales/sales", {
     cache: "no-store",
   });

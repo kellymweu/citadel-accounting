@@ -83,7 +83,11 @@ export default function Settings() {
             >
               Company
             </Link>
-            <Link href="#" className="font-semibold" prefetch={false}>
+            <Link
+              href="/settings/ChartOfAccounts"
+              className="font-semibold"
+              prefetch={false}
+            >
               Chart of Accounts
             </Link>
             <Link href="#" className="font-semibold" prefetch={false}>

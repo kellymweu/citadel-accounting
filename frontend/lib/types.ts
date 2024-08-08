@@ -2,7 +2,7 @@
 
 export interface CustomerType {
   id: number;
-  first_name: string; 
+  first_name: string;
 }
 
 export interface InvoiceType {
@@ -23,7 +23,7 @@ export interface InvoicesResponseType {
 }
 
 // BANKING TYPES
-export interface AccountType {
+export interface BankAccountType {
   id: number;
   account_name: string;
   account_number: number;
@@ -89,6 +89,7 @@ export interface ItemType {
   item_name: string;
   tax_type: "16% VAT" | "EXEMPT" | "2% CATERING" | "14% VAT";
   SKU: string;
+  //quantity. add this in the models
   purchase_price: string; // Using string for decimal values
   marked_price: string; // Using string for decimal values
   created_at: string; // This will be a string in ISO format
@@ -137,16 +138,6 @@ export interface PayrollsResponseType {
 }
 
 //PURCHASES TYPES
-export interface ItemType {
-  id: number;
-  item_name: string;
-  tax_type: "16% VAT" | "EXEMPT" | "2% CATERING" | "14% VAT";
-  SKU: string;
-  purchase_price: string; // Using string for decimal values
-  marked_price: string; // Using string for decimal values
-  created_at: string; // This will be a string in ISO format
-  updated_at: string; // This will be a string in ISO format
-}
 
 export interface PurchaseType {
   id: number;
@@ -183,17 +174,6 @@ export interface SuppliersResponseType {
 }
 
 //SALES TYPES
-export interface ItemType {
-  id: number;
-  item_name: string;
-  tax_type: "16% VAT" | "EXEMPT" | "2% CATERING" | "14% VAT";
-  SKU: string;
-  purchase_price: string; // Using string for decimal values
-  marked_price: string; // Using string for decimal values
-  created_at: string; // This will be a string in ISO format
-  updated_at: string; // This will be a string in ISO format
-}
-
 
 export interface SaleType {
   id: number;
@@ -212,3 +192,18 @@ export interface SalesResponseType {
   sales?: SaleType[];
   error?: Error;
 }
+
+// CHART OF ACCOUNT TYPES
+
+export interface ChartOfAccountType {
+  id: number;
+  mainAccountCode: string; // The main account code, e.g., "1000"
+  subAccountCode?: string; // The sub-account code, e.g., "1001"
+  name: string; // The name of the account
+  type: COAType; // The type of account (Asset, Liability, etc.)
+  balance: number; // The balance of the account
+  createdAt: string; // ISO format date string
+  updatedAt: string; // ISO format date string
+}
+
+export type COAType = "asset" | "liability" | "equity" | "income" | "expense";
