@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 import Provider from "@/lib/Providers";
 import LeftSideBar from "@/components/LeftSideBar";
+import Footer from "@/components/Footer";
 
 const fontSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -39,6 +40,7 @@ export default function RootLayout({
           >
             {/* <LeftSideBar /> */}
             {children}
+            {/* <Footer /> */}
           </ThemeProvider>
         </Provider>
       </body>
