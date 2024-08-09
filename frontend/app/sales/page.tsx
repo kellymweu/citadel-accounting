@@ -1,5 +1,7 @@
 "use client";
 
+import { useState, useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import {
   Table,
@@ -9,11 +11,11 @@ import {
   TableBody,
   TableCell,
 } from "@/components/ui/table";
-//import { getSales } from "@/server/actions";
-import { useQuery } from "@tanstack/react-query";
-import { SaleType } from "@/lib/types";
-import { useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import { SaleType } from "@/lib/types";
+import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 export async function getSales(): Promise<SaleType[]> {
   const response = await fetch("http://127.0.0.1:8000/api/sales/sales", {
@@ -27,13 +29,12 @@ export async function getSales(): Promise<SaleType[]> {
   return response.json();
 }
 
-export default function Expenses() {
+export default function Sales() {
   const [filters, setFilters] = useState({
     startDate: "",
     endDate: "",
     minAmount: "",
     maxAmount: "",
-    category: "",
   });
 
   const [selectedPeriod, setSelectedPeriod] = useState<string | null>(null);
@@ -43,9 +44,11 @@ export default function Expenses() {
     error,
     isLoading,
   } = useQuery<SaleType[]>({
-    queryKey: ["expenses"],
+    queryKey: ["sales"],
     queryFn: getSales,
   });
+
+  const router = useRouter(); // Use the useRouter hook
 
   const handleFilterChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -73,12 +76,12 @@ export default function Expenses() {
     setSelectedPeriod(period);
   };
 
-  const salesBySale_Date = useMemo(() => {
+  const salesByDate = useMemo(() => {
     return filteredSales.reduce((acc, sale) => {
       if (!acc[sale.sale_date]) {
         acc[sale.sale_date] = { total: 0, count: 0 };
       }
-      acc[sale.sale_date].total += parseFloat(sale.sale_date);
+      acc[sale.sale_date].total += parseFloat(sale.sub_total);
       acc[sale.sale_date].count += 1;
       return acc;
     }, {} as { [key: string]: { total: number; count: number } });
@@ -90,134 +93,148 @@ export default function Expenses() {
 
   if (error) {
     return (
-      <div className="flex flex-col min-h-[100dvh]">
-        <main className="flex-1">
-          <section className="w-full py-4 bg-muted">
-            <div className="container grid gap-4 px-4 md:px-6 lg:grid-cols-3 lg:gap-6">
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Total Revenue
-                  </CardTitle>
-                  <DollarSignIcon className="w-4 h-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">$45,231.89</div>
-                  <p className="text-xs text-muted-foreground">
-                    +20.1% from last month
-                  </p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between pb-2">
-                  <CardTitle className="text-sm font-medium">Sales</CardTitle>
-                  <CreditCardIcon className="w-4 h-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">+12,234</div>
-                  <p className="text-xs text-muted-foreground">
-                    +19% from last month
-                  </p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between pb-2">
-                  <CardTitle className="text-sm font-medium">Income</CardTitle>
-                  <DollarSignIcon className="w-4 h-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">$23,456.78</div>
-                  <p className="text-xs text-muted-foreground">
-                    +15.2% from last month
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </section>
+      <div>
+        Error loading resource:{" "}
+        {error instanceof Error ? error.message : "Unknown error"}
+      </div>
+    );
+  }
 
-          <section className="w-full md:py-8">
-            <div className="container px-4 md:px-6">
-              <Card>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="w-[100px]">Invoice</TableHead>
-                      <TableHead>Date</TableHead>
-                      <TableHead>Client</TableHead>
-                      <TableHead>Amount</TableHead>
-                      <TableHead>Status</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {filteredSales.map((sale: SaleType) => (
+  return (
+    <div className="flex flex-col min-h-[100dvh]">
+      <main className="flex-1">
+        <section className="w-full py-4 bg-muted">
+          <div className="container grid gap-4 px-4 md:px-6 lg:grid-cols-3 lg:gap-6">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium">
+                  Total Revenue
+                </CardTitle>
+                {/* <DollarSignIcon */}
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">$45,231.89</div>
+                <p className="text-xs text-muted-foreground">
+                  +20.1% from last month
+                </p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium">Sales</CardTitle>
+                {/* credit card icon */}
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">+12,234</div>
+                <p className="text-xs text-muted-foreground">
+                  +19% from last month
+                </p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium">Income</CardTitle>
+                {/* dollar sign icon */}
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">$23,456.78</div>
+                <p className="text-xs text-muted-foreground">
+                  +15.2% from last month
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        <section className="w-full md:py-8">
+          <div className="container px-4 md:px-6">
+            <div className="mb-6 flex items-center justify-between">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <Input
+                  type="date"
+                  name="startDate"
+                  placeholder="Start Date"
+                  value={filters.startDate}
+                  onChange={handleFilterChange}
+                />
+                <Input
+                  type="date"
+                  name="endDate"
+                  placeholder="End Date"
+                  value={filters.endDate}
+                  onChange={handleFilterChange}
+                />
+                <Input
+                  type="number"
+                  name="minAmount"
+                  placeholder="Min Amount"
+                  value={filters.minAmount}
+                  onChange={handleFilterChange}
+                />
+                <Input
+                  type="number"
+                  name="maxAmount"
+                  placeholder="Max Amount"
+                  value={filters.maxAmount}
+                  onChange={handleFilterChange}
+                />
+              </div>
+              <Button 
+                onClick={() => router.push("/sales/newsale")} // Use router.push for navigation
+                className="ml-4 text-white py-2 px-4 rounded"
+              >
+                New Sale
+              </Button>
+            </div>
+
+            <Card>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[100px]">Invoice</TableHead>
+                    <TableHead>Date</TableHead>
+                    <TableHead>Client</TableHead>
+                    <TableHead>Amount</TableHead>
+                    <TableHead>Status</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredSales.length > 0 ? (
+                    filteredSales.map((sale: SaleType) => (
                       <TableRow key={sale.id}>
                         <TableCell className="font-medium">{sale.id}</TableCell>
                         <TableCell>{sale.sale_date}</TableCell>
                         <TableCell>Customer here</TableCell>
                         <TableCell className="text-right">
-                          {sale.sub_total}
+                          ${parseFloat(sale.sub_total).toFixed(2)}
                         </TableCell>
                         {/* <TableCell>
-                      <Badge
-                        variant="outline"
-                        className={
-                          sale.open
-                            ? "bg-green-700 text-green-200" // Paid
-                            : "bg-red-700 text-red-200" // Not Paid
-                        }
-                      >
-                        {sale.paid ? "Paid" : "Unpaid"}
-                      </Badge>
-                    </TableCell> */}
+                          <Badge
+                            variant="outline"
+                            className={
+                              sale.open
+                                ? "bg-green-700 text-green-200" // Paid
+                                : "bg-red-700 text-red-200" // Not Paid
+                            }
+                          >
+                            {sale.paid ? "Paid" : "Unpaid"}
+                          </Badge>
+                        </TableCell> */}
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </Card>
-            </div>
-          </section>
-        </main>
-      </div>
-    );
-  }
-}
-
-function CreditCardIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect width="20" height="14" x="2" y="5" rx="2" />
-      <line x1="2" x2="22" y1="10" y2="10" />
-    </svg>
-  );
-}
-
-function DollarSignIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="12" x2="12" y1="2" y2="22" />
-      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-    </svg>
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell colSpan={5} className="text-center">
+                        No sales
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </Card>
+          </div>
+        </section>
+      </main>
+    </div>
   );
 }

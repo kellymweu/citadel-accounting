@@ -17,6 +17,7 @@ import BarchartComponent from "@/components/BarchartComponent";
 import { PurchaseType } from "@/lib/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export async function getPurchases(): Promise<PurchaseType[]> {
   const response = await fetch(
@@ -52,6 +53,8 @@ export default function Purchases() {
     queryKey: ["purchases"],
     queryFn: getPurchases,
   });
+
+  const router = useRouter(); // Use the useRouter hook
 
   const handleFilterChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -111,16 +114,10 @@ export default function Purchases() {
           <div className="container px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
               <div className="flex flex-col justify-center space-y-4">
-                <div className="space-y-2">
-                  <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                    Manage Your Purchases Efficiently
-                  </h1>
-                  <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                    Use our platform to track and analyze your purchases with
-                    ease. Filter by date, amount, and category.
-                  </p>
-                </div>
-                <Button size="sm" className="border">
+                <Button
+                  onClick={() => router.push("/purchases/newpurchase")} // Use router.push for navigation
+                  className="ml-4 text-white py-2 px-4 rounded"
+                >
                   New Purchase
                 </Button>
               </div>
@@ -218,12 +215,25 @@ export default function Purchases() {
                   </TableHeader>
                   <TableBody>
                     {filteredPurchases.map((purchase) => (
-                      <TableRow key={purchase.id}>
-                        <TableCell>{purchase.purchase_date}</TableCell>
+                      <TableRow
+                        key={purchase.id}
+                        className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600"
+                      >
                         <TableCell>
-                          ${parseFloat(purchase.sub_total).toFixed(2)}
+                          <Link href={`/purchases/${purchase.id}`}>
+                            {purchase.purchase_date}
+                          </Link>
                         </TableCell>
-                        <TableCell>{purchase.supplier_name}</TableCell>
+                        <TableCell>
+                          <Link href={`/purchases/${purchase.id}`}>
+                            ${parseFloat(purchase.sub_total).toFixed(2)}
+                          </Link>
+                        </TableCell>
+                        <TableCell>
+                          <Link href={`/purchases/${purchase.id}`}>
+                            {purchase.supplier_name}
+                          </Link>
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
